@@ -1,9 +1,15 @@
 import pygame
 
 BLACK = (0, 0, 0)
-WHITE = (100, 100, 100)
+GRAY = (100, 100, 100)
+YELLOW = (255, 255, 0)
+
 WINDOW_HEIGHT = 480
 WINDOW_WIDTH = 720
+
+BLOCKSIZE = 10
+GRID = [[0 for x in range(WINDOW_HEIGHT // BLOCKSIZE)]
+        for y in range(WINDOW_WIDTH // BLOCKSIZE)]
 
 
 def main():
@@ -26,18 +32,26 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                SystemExit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    print(event.pos)
+                    GRID[event.pos[0] // BLOCKSIZE][event.pos[1] // BLOCKSIZE] = 1
 
         pygame.display.update()
 
 
 def drawGrid():
-    block_size = 10
-    for x in range(WINDOW_WIDTH // block_size):
-        for y in range(WINDOW_HEIGHT // block_size):
-            rect = pygame.Rect(x*block_size, y*block_size,
-                               block_size, block_size)
-            pygame.draw.rect(SCREEN, WHITE, rect, 1)
+    for x in range(GRID.__len__()):
+        for y in range(GRID[x].__len__()):
+            if GRID[x][y] == 1:
+                rect = pygame.Rect(x*BLOCKSIZE, y*BLOCKSIZE,
+                                   BLOCKSIZE, BLOCKSIZE)
+                pygame.draw.rect(SCREEN, YELLOW, rect)
+            else:
+                rect = pygame.Rect(x*BLOCKSIZE, y*BLOCKSIZE,
+                                   BLOCKSIZE, BLOCKSIZE)
+                pygame.draw.rect(SCREEN, GRAY, rect, 1)
 
 
 if __name__ == "__main__":
