@@ -81,7 +81,7 @@ def main():
 def update_game():
     global grid, generation, speed, running, clock
     if running:
-        clock.tick(speed)
+        clock.tick(speed * 2)
         generation += 1
         grid = update_grid()
     drawGrid()
